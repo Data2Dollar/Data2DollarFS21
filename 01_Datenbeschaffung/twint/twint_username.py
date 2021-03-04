@@ -1,8 +1,8 @@
 import twint
 
 c = twint.Config()
-c.Username = "ABack"
-c.Output = "aback.csv"
+c.Username = "xxx"
+c.Output = "xxx.csv"
 
 twint.run.Search(c)
 
