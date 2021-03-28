@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.selector import Selector
-# Zusaetzlich zu Scrapy importieren wir noch Selenium und die Systemtime 
+# Zusaetzlich zu Scrapy importieren wir noch Selenium und die Systemtime
 from selenium import webdriver
 from time import sleep
 
@@ -19,14 +19,14 @@ class GetdataSpider(scrapy.Spider):
     	#Wir benoetigen eine while-Schleife, die ueberprueft, ob es noch eine naechste Seite gibt oder nicht
     	while self.driver.find_elements_by_xpath('//*[@title="Weiter"]'):
     		# Hier wird die Webseite im Selector gespeichert/uebergeben
-    		sel = Selector(text=self.driver.page_source)    		
+    		sel = Selector(text=self.driver.page_source)
     		single_etikette = sel.xpath('//*[@class="listing-summary col-xs-12 col-sm-6"]')
-    		for etikette in single_etikette: 
+    		for etikette in single_etikette:
     			unternehmens_name = etikette.xpath('.//*[@itemprop="name"]/text()').extract()
     			unternehmens_adresse = etikette.xpath('.//*[@class="address"]/text()').extract_first()
     			yield {'Name': unternehmens_name,
     				'Adresse': unternehmens_adresse}
-    		# Da der "Naechste Seite" Button im Sichtfeld sein muss, scrollen wir auf der Webseite nach unten 
+    		# Da der "Naechste Seite" Button im Sichtfeld sein muss, scrollen wir auf der Webseite nach unten
     		element = self.driver.find_element_by_id('below-content')
     		self.driver.execute_script("arguments[0].scrollIntoView(0, document.documentElement.scrollHeight-5);", element)
     		sel = Selector(text=self.driver.page_source)
